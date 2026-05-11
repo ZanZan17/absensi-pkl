@@ -1,6 +1,6 @@
-# Siswa PKL Absensi
+# Siswa Magang Absensi
 
-Siswa PKL Absensi is a web-based attendance application that utilizes GPS lock radius and specific coordinates to ensure accurate location-based attendance tracking.
+Siswa Magang Absensi is a web-based attendance application that utilizes GPS lock radius and specific coordinates to ensure accurate location-based attendance tracking.
 
 ## Author
 
