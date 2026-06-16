@@ -81,17 +81,17 @@ function getAttendanceTimeFromShift(
         const [h, m] = t.split(":").map(Number);
         return h * 60 + m;
     };
-    const nowMin   = now.getHours() * 60 + now.getMinutes();
-    const tol      = 15;
-    const inStart  = toMin(shift.check_in_start)  - tol;
-    const inEnd    = toMin(shift.check_in_end)     + tol;
-    const outStart = toMin(shift.check_out_start)  - tol;
-    let   outEnd   = toMin(shift.check_out_end)    + tol;
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const tol = 15;
+    const inStart = toMin(shift.check_in_start) - tol;
+    const inEnd = toMin(shift.check_in_end) + tol;
+    const outStart = toMin(shift.check_out_start) - tol;
+    let outEnd = toMin(shift.check_out_end) + tol;
     if (outEnd < outStart) outEnd += 24 * 60;
-    const nowAdj   = nowMin < outStart && outEnd > 24 * 60 ? nowMin + 24 * 60 : nowMin;
+    const nowAdj = nowMin < outStart && outEnd > 24 * 60 ? nowMin + 24 * 60 : nowMin;
 
-    if (nowMin >= inStart && nowMin <= inEnd)       return "MASUK";
-    if (nowAdj >= outStart && nowAdj <= outEnd)     return "PULANG";
+    if (nowMin >= inStart && nowMin <= inEnd) return "MASUK";
+    if (nowAdj >= outStart && nowAdj <= outEnd) return "PULANG";
     return "DI LUAR WAKTU";
 }
 
@@ -99,9 +99,9 @@ function ShiftInfoCard({ shift }: { shift: ShiftOption }) {
     const timeStatus = getAttendanceTimeFromShift(shift);
 
     const colorMap = {
-        MASUK:           { bg: "to-green-100", icon: "text-green-400", badge: "bg-green-100 text-green-700" },
-        PULANG:          { bg: "to-blue-100",  icon: "text-blue-400",  badge: "bg-blue-100 text-blue-700"  },
-        "DI LUAR WAKTU": { bg: "to-red-100",   icon: "text-red-300",   badge: "bg-red-100 text-red-500"    },
+        MASUK: { bg: "to-green-100", icon: "text-green-400", badge: "bg-green-100 text-green-700" },
+        PULANG: { bg: "to-blue-100", icon: "text-blue-400", badge: "bg-blue-100 text-blue-700" },
+        "DI LUAR WAKTU": { bg: "to-red-100", icon: "text-red-300", badge: "bg-red-100 text-red-500" },
     };
     const color = colorMap[timeStatus];
 
@@ -118,9 +118,9 @@ function ShiftInfoCard({ shift }: { shift: ShiftOption }) {
                     <span>🕐 Pulang: <strong>{shift.check_out_start}</strong> – <strong>{shift.check_out_end}</strong></span>
                 </div>
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium mt-1 ${color.badge}`}>
-                    {timeStatus === "MASUK"           && "✅ Sekarang: Waktu Absen Masuk"}
-                    {timeStatus === "PULANG"          && "✅ Sekarang: Waktu Absen Pulang"}
-                    {timeStatus === "DI LUAR WAKTU"   && "⛔ Di Luar Window Absensi (toleransi ±15 menit)"}
+                    {timeStatus === "MASUK" && "✅ Sekarang: Waktu Absen Masuk"}
+                    {timeStatus === "PULANG" && "✅ Sekarang: Waktu Absen Pulang"}
+                    {timeStatus === "DI LUAR WAKTU" && "⛔ Di Luar Window Absensi (toleransi ±15 menit)"}
                 </span>
             </div>
         </Card>
@@ -142,7 +142,7 @@ function AbsensiCardTBOG({
         ? getAttendanceTimeFromShift(selectedShift)
         : null;
 
-    const alreadyCheckedIn  = latest_activity?.attendance != null;
+    const alreadyCheckedIn = latest_activity?.attendance != null;
     const alreadyCheckedOut = latest_activity?.attendance?.check_out != null;
 
     return (
@@ -167,7 +167,7 @@ function AbsensiCardTBOG({
                     />
                     {shifts.length === 0 && (
                         <p className="text-sm text-gray-400">
-                            Tidak ada shift aktif untuk lokasi prakerin kamu saat ini.
+                            Tidak ada shift aktif untuk lokasi PKL kamu saat ini.
                         </p>
                     )}
                 </div>
@@ -203,7 +203,7 @@ function AbsensiCardTBOG({
                             <span className="font-semibold">
                                 {distanceConverter(latest_activity?.attendance?.radius_gap_attendance_in as number)}
                             </span>
-                            {" dari Lokasi Prakerin"}
+                            {" dari Lokasi PKL"}
                         </span>
                     </div>
                 </Card>
@@ -240,7 +240,7 @@ function AbsensiCardTBOG({
                             <span className="font-semibold">
                                 {distanceConverter(latest_activity?.attendance?.radius_gap_attendance_out as number)}
                             </span>
-                            {" dari Lokasi Prakerin"}
+                            {" dari Lokasi PKL"}
                         </span>
                     </div>
                 </Card>
@@ -266,7 +266,7 @@ function AbsensiCardGlobal({
     latest_activity: StudentDashboardProps["latest_activity"];
     currentTime: string;
 }) {
-    const alreadyCheckedIn  = latest_activity?.attendance != null;
+    const alreadyCheckedIn = latest_activity?.attendance != null;
     const alreadyCheckedOut = latest_activity?.attendance?.check_out != null;
 
     return (
@@ -277,49 +277,61 @@ function AbsensiCardGlobal({
                 <div className="z-10 relative flex flex-col gap-1">
                     <h3 className="font-semibold text-slate-700">Jadwal Absensi</h3>
                     <div className="flex gap-4 text-sm text-slate-600">
-                        <span>🕐 Masuk: <strong>{setting.check_in_start}</strong> – <strong>{setting.check_in_end}</strong></span>
-                        <span>🕐 Pulang: <strong>{setting.check_out_start}</strong> – <strong>{setting.check_out_end}</strong></span>
+                        <span className="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            Masuk: <strong>{setting.check_in_start}</strong> – <strong>{setting.check_in_end}</strong>
+                        </span>
+                        <span className="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            Pulang: <strong>{setting.check_out_start}</strong> – <strong>{setting.check_out_end}</strong>
+                        </span>
                     </div>
                 </div>
             </Card>
 
             {!alreadyCheckedIn &&
                 !isWithinTimeRange(setting.check_in_start, setting.check_in_end, currentTime) && (
-                <Card className="p-4 relative overflow-hidden shadow-md mb-3">
-                    <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
-                    {new Date(currentTime) > new Date(`1970-01-01T${setting.check_in_end}`) ? (
-                        <Ban className="absolute z-10 -right-4 -bottom-0 text-red-300" size={70} />
-                    ) : (
-                        <Hourglass className="absolute z-10 -right-0 -bottom-3 text-red-300" size={70} />
-                    )}
-                    <div className="z-10 flex flex-col justify-start items-start relative">
-                        <h3 className="font-semibold text-slate-700 mb-0">Absensi Masuk</h3>
+                    <Card className="p-4 relative overflow-hidden shadow-md mb-3">
+                        <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
                         {new Date(currentTime) > new Date(`1970-01-01T${setting.check_in_end}`) ? (
-                            <span className="text-slate-700">Kamu dianggap tidak masuk Prakerin hari ini.</span>
+                            <Ban className="absolute z-10 -right-4 -bottom-0 text-red-300" size={70} />
                         ) : (
-                            <span className="text-slate-700">
-                                Absensi dibuka pada Jam:{" "}
-                                {parseInt(setting.check_in_start).toFixed(2)} –{" "}
-                                {parseInt(setting.check_in_end).toFixed(2)}
-                            </span>
+                            <Hourglass className="absolute z-10 -right-0 -bottom-3 text-red-300" size={70} />
                         )}
-                    </div>
-                </Card>
-            )}
+                        <div className="z-10 flex flex-col justify-start items-start relative">
+                            <h3 className="font-semibold text-slate-700 mb-0">Absensi Masuk</h3>
+                            {new Date(currentTime) > new Date(`1970-01-01T${setting.check_in_end}`) ? (
+                                <span className="text-slate-700">Kamu dianggap tidak masuk PKL hari ini.</span>
+                            ) : (
+                                <span className="text-slate-700">
+                                    Absensi dibuka pada Jam:{" "}
+                                    {parseInt(setting.check_in_start).toFixed(2)} –{" "}
+                                    {parseInt(setting.check_in_end).toFixed(2)}
+                                </span>
+                            )}
+                        </div>
+                    </Card>
+                )}
 
             {!alreadyCheckedIn &&
                 isWithinTimeRange(setting.check_in_start, setting.check_in_end, currentTime) && (
-                <Link href="/student/attendance/create?utm_source=student_dashboard">
-                    <Card className="p-4 relative overflow-hidden shadow-md mb-3">
-                        <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
-                        <ChevronRight className="absolute z-10 right-3 top-7 text-red-500" />
-                        <div className="z-10 flex flex-col justify-start items-start relative">
-                            <h3 className="font-semibold text-slate-700 mb-0">Absensi Masuk Sekarang</h3>
-                            <span className="text-slate-700">Klik untuk absensi</span>
-                        </div>
-                    </Card>
-                </Link>
-            )}
+                    <Link href="/student/attendance/create?utm_source=student_dashboard">
+                        <Card className="p-4 relative overflow-hidden shadow-md mb-3">
+                            <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
+                            <ChevronRight className="absolute z-10 right-3 top-7 text-red-500" />
+                            <div className="z-10 flex flex-col justify-start items-start relative">
+                                <h3 className="font-semibold text-slate-700 mb-0">Absensi Masuk Sekarang</h3>
+                                <span className="text-slate-700">Klik untuk absensi</span>
+                            </div>
+                        </Card>
+                    </Link>
+                )}
 
             {alreadyCheckedIn && (
                 <Card className="p-4 relative overflow-hidden shadow-md mb-3">
@@ -337,7 +349,7 @@ function AbsensiCardGlobal({
                             <span className="font-semibold">
                                 {distanceConverter(latest_activity?.attendance?.radius_gap_attendance_in as number)}
                             </span>
-                            {" dari Lokasi Prakerin"}
+                            {" dari Lokasi PKL"}
                         </span>
                     </div>
                 </Card>
@@ -347,17 +359,17 @@ function AbsensiCardGlobal({
                 latest_activity?.attendance?.status === "PRESENT" &&
                 !alreadyCheckedOut &&
                 isWithinTimeRange(setting.check_out_start, setting.check_out_end, currentTime) && (
-                <Link href="/student/attendance/create?utm_source=student_dashboard">
-                    <Card className="p-4 relative overflow-hidden shadow-md mb-3">
-                        <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
-                        <ChevronRight className="absolute z-10 right-3 top-7 text-red-500" />
-                        <div className="z-10 flex flex-col justify-start items-start relative">
-                            <h3 className="font-semibold text-slate-700 mb-0">Absensi Pulang Sekarang</h3>
-                            <span className="text-slate-700">Klik untuk absensi</span>
-                        </div>
-                    </Card>
-                </Link>
-            )}
+                    <Link href="/student/attendance/create?utm_source=student_dashboard">
+                        <Card className="p-4 relative overflow-hidden shadow-md mb-3">
+                            <div className="absolute -right-5 -bottom-0 w-2/3 h-full bg-gradient-to-r from-white to-red-100 z-0" />
+                            <ChevronRight className="absolute z-10 right-3 top-7 text-red-500" />
+                            <div className="z-10 flex flex-col justify-start items-start relative">
+                                <h3 className="font-semibold text-slate-700 mb-0">Absensi Pulang Sekarang</h3>
+                                <span className="text-slate-700">Klik untuk absensi</span>
+                            </div>
+                        </Card>
+                    </Link>
+                )}
 
             {alreadyCheckedOut && (
                 <Card className="p-4 relative overflow-hidden shadow-md mb-3">
@@ -373,7 +385,7 @@ function AbsensiCardGlobal({
                             <span className="font-semibold">
                                 {distanceConverter(latest_activity?.attendance?.radius_gap_attendance_out as number)}
                             </span>
-                            {" dari Lokasi Prakerin"}
+                            {" dari Lokasi PKL"}
                         </span>
                     </div>
                 </Card>
@@ -395,7 +407,7 @@ export default function StudentDashboard({
     const [profilePhotoUrl, setProfilePhotoUrl] = useState<string | null>(
         student?.profile_photo_url || null
     );
-    const [imgError, setImgError]       = useState(false);
+    const [imgError, setImgError] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date().toISOString());
     const [grantedNotif, setGrantedNotif] = useState(
         Notification.permission === "granted"
@@ -408,7 +420,7 @@ export default function StudentDashboard({
 
     useEffect(() => {
         if (flash?.success) BlastSonner({ type: BlastType.SUCCESS, message: flash.success });
-        if (flash?.error)   BlastSonner({ type: BlastType.ERROR,   message: flash.error   });
+        if (flash?.error) BlastSonner({ type: BlastType.ERROR, message: flash.error });
     }, [flash]);
 
     useEffect(() => {
@@ -421,13 +433,13 @@ export default function StudentDashboard({
     }, []);
 
     setLocalStorage("user_role", user_role);
-    setLocalStorage("default_latitude",  setting?.default_latitude);
+    setLocalStorage("default_latitude", setting?.default_latitude);
     setLocalStorage("default_longitude", setting?.default_longitude);
 
     const menuItems: MenuItem[] = [
-        { icon: <LuMapPinCheck size={24} color="#36454F" />, label: "Data Absensi",          url: "/student/attendance" },
-        { icon: <NotebookText  size={24} color="#36454F" />, label: "Data Jurnal",            url: "/student/journal"   },
-        { icon: <HiBuildingStorefront size={24} color="#36454F" />, label: "Lokasi Prakerin Kamu", url: "/student/workshop"  },
+        { icon: <LuMapPinCheck size={24} color="#36454F" />, label: "Data Absensi", url: "/student/attendance" },
+        { icon: <NotebookText size={24} color="#36454F" />, label: "Data Jurnal", url: "/student/journal" },
+        { icon: <HiBuildingStorefront size={24} color="#36454F" />, label: "Lokasi PKL Kamu", url: "/student/workshop" },
     ];
 
     const handleRequestNotification = async () => {
@@ -435,7 +447,7 @@ export default function StudentDashboard({
         setGrantedNotif(isGranted);
         BlastSonner({
             message: isGranted ? "Notifikasi diizinkan" : "Notifikasi ditolak",
-            type:    isGranted ? BlastType.SUCCESS : BlastType.ERROR,
+            type: isGranted ? BlastType.SUCCESS : BlastType.ERROR,
         });
     };
 

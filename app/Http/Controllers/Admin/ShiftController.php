@@ -31,7 +31,7 @@ class ShiftController extends Controller
         ])->values();
 
         return Inertia::render('Admin/Shift/Index', [
-            'title'   => 'Manajemen Shift TBOG',
+            'title'   => 'Manajemen Shift Jurusan',
             'grouped' => $grouped,
         ]);
     }

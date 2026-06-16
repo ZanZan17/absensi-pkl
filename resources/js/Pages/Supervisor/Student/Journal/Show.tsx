@@ -25,7 +25,7 @@ export default function SupervisorStudentJournalShow({
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Detail aktivitas Siswa Prakerin"
+                description="Detail aktivitas Siswa PKL"
             />
 
             <Card className="shadow-md p-4 mb-4 flex flex-col relative overflow-hidden">
@@ -33,7 +33,7 @@ export default function SupervisorStudentJournalShow({
                     <div className="flex items-center gap-2 mb-3">
                         <Activity className="text-slate-500" />
                         <h3 className="text-lg font-semibold">
-                            Aktivitas Siswa Prakerin
+                            Aktivitas Siswa PKL
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">

@@ -66,23 +66,23 @@ function ShiftRow({
     const [editing, setEditing] = useState(false);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
-        name:            shift.name,
-        location:        shift.location,
-        check_in_start:  shift.check_in_start,
-        check_in_end:    shift.check_in_end,
+        name: shift.name,
+        location: shift.location,
+        check_in_start: shift.check_in_start,
+        check_in_end: shift.check_in_end,
         check_out_start: shift.check_out_start,
-        check_out_end:   shift.check_out_end,
+        check_out_end: shift.check_out_end,
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validate = () => {
         const e: Record<string, string> = {};
-        if (!form.name)            e.name            = "Nama shift wajib diisi";
-        if (!form.location)        e.location        = "Lokasi wajib diisi";
-        if (!form.check_in_start)  e.check_in_start  = "Wajib diisi";
-        if (!form.check_in_end)    e.check_in_end    = "Wajib diisi";
+        if (!form.name) e.name = "Nama shift wajib diisi";
+        if (!form.location) e.location = "Lokasi wajib diisi";
+        if (!form.check_in_start) e.check_in_start = "Wajib diisi";
+        if (!form.check_in_end) e.check_in_end = "Wajib diisi";
         if (!form.check_out_start) e.check_out_start = "Wajib diisi";
-        if (!form.check_out_end)   e.check_out_end   = "Wajib diisi";
+        if (!form.check_out_end) e.check_out_end = "Wajib diisi";
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -284,12 +284,12 @@ function AddShiftForm({
 
     const validate = () => {
         const e: Record<string, string> = {};
-        if (!form.name)            e.name            = "Nama shift wajib diisi";
-        if (!form.location)        e.location        = "Lokasi wajib diisi";
-        if (!form.check_in_start)  e.check_in_start  = "Wajib diisi";
-        if (!form.check_in_end)    e.check_in_end    = "Wajib diisi";
+        if (!form.name) e.name = "Nama shift wajib diisi";
+        if (!form.location) e.location = "Lokasi wajib diisi";
+        if (!form.check_in_start) e.check_in_start = "Wajib diisi";
+        if (!form.check_in_end) e.check_in_end = "Wajib diisi";
         if (!form.check_out_start) e.check_out_start = "Wajib diisi";
-        if (!form.check_out_end)   e.check_out_end   = "Wajib diisi";
+        if (!form.check_out_end) e.check_out_end = "Wajib diisi";
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -414,11 +414,17 @@ function LocationCard({ group }: { group: GroupedLocation }) {
 
     return (
         <div className="mb-6">
-            {/* Header lokasi */}
             <div className="flex items-center gap-3 mb-3">
                 <div className="flex-1 h-px bg-gray-200" />
                 <span className="text-sm font-bold text-gray-600 uppercase tracking-widest px-2 whitespace-nowrap flex items-center gap-2">
-                    🏨 {group.location}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14" />
+                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
+                        <path d="M6 12h12" />
+                        <path d="M6 17h12" />
+                        <rect x="10" y="17" width="4" height="5" />
+                    </svg>
+                    {group.location}
                     <span className="text-xs font-normal text-gray-400 normal-case tracking-normal">
                         ({shifts.length} shift)
                     </span>
@@ -457,12 +463,12 @@ function AddNewLocation({ onAdded }: { onAdded: (group: GroupedLocation) => void
 
     const validate = () => {
         const e: Record<string, string> = {};
-        if (!form.location)        e.location        = "Lokasi wajib diisi";
-        if (!form.name)            e.name            = "Nama shift wajib diisi";
-        if (!form.check_in_start)  e.check_in_start  = "Wajib diisi";
-        if (!form.check_in_end)    e.check_in_end    = "Wajib diisi";
+        if (!form.location) e.location = "Lokasi wajib diisi";
+        if (!form.name) e.name = "Nama shift wajib diisi";
+        if (!form.check_in_start) e.check_in_start = "Wajib diisi";
+        if (!form.check_in_end) e.check_in_end = "Wajib diisi";
         if (!form.check_out_start) e.check_out_start = "Wajib diisi";
-        if (!form.check_out_end)   e.check_out_end   = "Wajib diisi";
+        if (!form.check_out_end) e.check_out_end = "Wajib diisi";
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -489,14 +495,14 @@ function AddNewLocation({ onAdded }: { onAdded: (group: GroupedLocation) => void
         return (
             <button type="button" onClick={() => setOpen(true)}
                 className="w-full flex items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-300 hover:text-blue-500 hover:bg-blue-50 transition-colors text-sm font-medium mt-2">
-                <FiPlus size={18} /> Tambah Lokasi Hotel Baru
+                <FiPlus size={18} /> Tambah Lokasi PKL Baru
             </button>
         );
     }
 
     return (
         <div className="p-4 rounded-xl border-2 border-blue-300 bg-blue-50 shadow-sm flex flex-col gap-3 mt-2">
-            <h4 className="font-semibold text-blue-700 text-sm">Tambah Lokasi Hotel Baru</h4>
+            <h4 className="font-semibold text-blue-700 text-sm">Tambah Lokasi PKL Baru</h4>
 
             <div className="flex gap-3">
                 <div className="flex flex-col w-full">
@@ -591,12 +597,12 @@ export default function ShiftIndex({ title, grouped }: ShiftIndexProps) {
         <MainLayout title={title}>
             <PageTitle
                 title={title}
-                description="Kelola jadwal shift absensi untuk siswa jurusan TBOG"
+                description="Kelola jadwal shift absensi untuk siswa jurusan yang diizinkan"
             />
 
             {/* Info box */}
             <div className="mb-4 p-4 rounded-xl bg-blue-50 border border-blue-200 text-sm text-blue-700">
-                <strong>Catatan:</strong> Shift ini khusus untuk siswa jurusan <strong>TBOG</strong>.
+                <strong>Catatan:</strong> Shift ini khusus untuk siswa jurusan yang <strong>Diizinkan</strong>.
                 Siswa akan memilih shift aktif setiap hari sebelum absen.{" "}
                 <em>Window Absensi Masuk</em> adalah rentang waktu check-in diperbolehkan,
                 dan <em>Window Absensi Pulang</em> untuk check-out. Toleransi otomatis ±15 menit.
@@ -608,7 +614,7 @@ export default function ShiftIndex({ title, grouped }: ShiftIndexProps) {
                 <div className="flex flex-col items-center justify-center py-16 text-gray-400">
                     <FiClock size={48} className="mb-3 opacity-40" />
                     <p className="text-base font-medium">Belum ada shift terdaftar</p>
-                    <p className="text-sm mt-1">Tambahkan lokasi hotel dan shift pertama di bawah</p>
+                    <p className="text-sm mt-1">Tambahkan lokasi PKL dan shift pertama di bawah</p>
                 </div>
             ) : (
                 groups.map((group) => (

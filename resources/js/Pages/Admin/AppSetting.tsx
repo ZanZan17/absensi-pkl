@@ -82,14 +82,12 @@ function SystemToggle({
                 type="button"
                 onClick={onToggle}
                 disabled={loading}
-                className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none disabled:opacity-50 ${
-                    isActive ? "bg-green-500" : "bg-red-400"
-                }`}
+                className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none disabled:opacity-50 ${isActive ? "bg-green-500" : "bg-red-400"
+                    }`}
             >
                 <span
-                    className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
-                        isActive ? "translate-x-9" : "translate-x-1"
-                    }`}
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white shadow-md transition-transform duration-300 ${isActive ? "translate-x-9" : "translate-x-1"
+                        }`}
                 />
             </button>
         </div>
@@ -143,7 +141,7 @@ function MajorTimeRow({
                 )}
                 {type === "shift" && (
                     <div className="text-sm text-gray-600">
-                        <span>Jam absensi ditentukan per shift di setiap lokasi hotel.</span>
+                        <span>Jam absensi ditentukan per shift di setiap lokasi PKL.</span>
                         <br />
                         <span className="text-xs text-gray-400">
                             Siswa memilih shift aktif setiap hari sebelum absen.
@@ -171,32 +169,32 @@ function MajorTimeRow({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AppSetting({ title, app_setting }: AppSettingProps) {
-    const [appIconPond, setAppIconPond]       = useState<any[]>([]);
+    const [appIconPond, setAppIconPond] = useState<any[]>([]);
     const [schoolIconPond, setSchoolIconPond] = useState<any[]>([]);
     const [onReversingMaps, setOnReversingMaps] = useState(false);
-    const [studentActive, setStudentActive]     = useState<boolean>(app_setting.is_student_active ?? true);
+    const [studentActive, setStudentActive] = useState<boolean>(app_setting.is_student_active ?? true);
     const [supervisorActive, setSupervisorActive] = useState<boolean>(app_setting.is_supervisor_active ?? true);
     const [toggleLoading, setToggleLoading] = useState(false);
 
     const { data, setData, errors, post, processing, setError, clearErrors } =
         useForm({
-            app_name:              app_setting.app_name              ?? "",
-            app_icon:              null as File | null,
-            default_latitude:      app_setting.default_latitude      ?? 0,
-            default_longitude:     app_setting.default_longitude     ?? 0,
+            app_name: app_setting.app_name ?? "",
+            app_icon: null as File | null,
+            default_latitude: app_setting.default_latitude ?? 0,
+            default_longitude: app_setting.default_longitude ?? 0,
             max_attendance_radius: app_setting.max_attendance_radius ?? 0,
-            check_in_start:        app_setting.check_in_start        ?? "",
-            check_in_end:          app_setting.check_in_end          ?? "",
-            check_out_start:       app_setting.check_out_start       ?? "",
-            check_out_end:         app_setting.check_out_end         ?? "",
-            school_name:           app_setting.school_name           ?? "",
-            school_icon:           null as File | null,
-            school_address:        app_setting.school_address        ?? "",
-            school_phone:          app_setting.school_phone          ?? "",
-            school_email:          app_setting.school_email          ?? "",
-            school_website:        app_setting.school_website        ?? "",
-            is_student_active:     app_setting.is_student_active     ?? true,
-            is_supervisor_active:  app_setting.is_supervisor_active  ?? true,
+            check_in_start: app_setting.check_in_start ?? "",
+            check_in_end: app_setting.check_in_end ?? "",
+            check_out_start: app_setting.check_out_start ?? "",
+            check_out_end: app_setting.check_out_end ?? "",
+            school_name: app_setting.school_name ?? "",
+            school_icon: null as File | null,
+            school_address: app_setting.school_address ?? "",
+            school_phone: app_setting.school_phone ?? "",
+            school_email: app_setting.school_email ?? "",
+            school_website: app_setting.school_website ?? "",
+            is_student_active: app_setting.is_student_active ?? true,
+            is_supervisor_active: app_setting.is_supervisor_active ?? true,
         });
 
     useEffect(() => { loadInitiateAppIcon(); }, []);
@@ -213,7 +211,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
             .then((response) => {
                 if (response.data.success) {
                     if (type === "student") { setStudentActive(newStatus); setData("is_student_active", newStatus); }
-                    else                   { setSupervisorActive(newStatus); setData("is_supervisor_active", newStatus); }
+                    else { setSupervisorActive(newStatus); setData("is_supervisor_active", newStatus); }
                     BlastSonner({ type: BlastType.SUCCESS, message: response.data.message });
                 } else {
                     BlastSonner({ type: BlastType.ERROR, message: response.data.message || "Gagal mengubah status sistem" });
@@ -253,7 +251,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
     };
 
     const handleLatLang = (key: string, value: number) => {
-        if (key === "default_latitude")  setData("default_latitude",  value || 0);
+        if (key === "default_latitude") setData("default_latitude", value || 0);
         if (key === "default_longitude") setData("default_longitude", value || 0);
     };
 
@@ -263,7 +261,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
             setOnReversingMaps(true);
             const response = await axios.get(`/api/reverse-gmaps-url?url=${encodeURIComponent(url)}`);
             const { latitude, longitude } = response.data;
-            setData("default_latitude",  latitude);
+            setData("default_latitude", latitude);
             setData("default_longitude", longitude);
         } catch (error: any) {
             BlastSonner({ message: error?.response?.data?.error || "Gagal mengambil koordinat", type: BlastType.ERROR });
@@ -274,21 +272,21 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
 
     const validateForm = (): boolean => {
         const errs: any = {};
-        if (!data.app_name)                              errs.app_name              = "Nama aplikasi tidak boleh kosong";
-        if (!data.app_icon && !app_setting.app_icon)     errs.app_icon              = "Ikon aplikasi tidak boleh kosong";
-        if (!data.school_name)                           errs.school_name           = "Nama sekolah tidak boleh kosong";
-        if (!data.school_icon && !app_setting.school_icon) errs.school_icon         = "Logo sekolah tidak boleh kosong";
-        if (!data.school_address)                        errs.school_address        = "Alamat sekolah tidak boleh kosong";
-        if (!data.school_phone)                          errs.school_phone          = "Nomor telepon sekolah tidak boleh kosong";
-        if (!data.school_email)                          errs.school_email          = "Email sekolah tidak boleh kosong";
-        if (!data.school_website)                        errs.school_website        = "Website sekolah tidak boleh kosong";
-        if (!data.default_latitude  || data.default_latitude  === 0) errs.default_latitude  = "Latitude tidak boleh kosong";
+        if (!data.app_name) errs.app_name = "Nama aplikasi tidak boleh kosong";
+        if (!data.app_icon && !app_setting.app_icon) errs.app_icon = "Ikon aplikasi tidak boleh kosong";
+        if (!data.school_name) errs.school_name = "Nama sekolah tidak boleh kosong";
+        if (!data.school_icon && !app_setting.school_icon) errs.school_icon = "Logo sekolah tidak boleh kosong";
+        if (!data.school_address) errs.school_address = "Alamat sekolah tidak boleh kosong";
+        if (!data.school_phone) errs.school_phone = "Nomor telepon sekolah tidak boleh kosong";
+        if (!data.school_email) errs.school_email = "Email sekolah tidak boleh kosong";
+        if (!data.school_website) errs.school_website = "Website sekolah tidak boleh kosong";
+        if (!data.default_latitude || data.default_latitude === 0) errs.default_latitude = "Latitude tidak boleh kosong";
         if (!data.default_longitude || data.default_longitude === 0) errs.default_longitude = "Longitude tidak boleh kosong";
-        if (!data.max_attendance_radius)                 errs.max_attendance_radius = "Maksimum radius absensi tidak boleh kosong";
-        if (!data.check_in_start)                        errs.check_in_start        = "Jam buka absensi masuk tidak boleh kosong";
-        if (!data.check_in_end)                          errs.check_in_end          = "Jam tutup absensi masuk tidak boleh kosong";
-        if (!data.check_out_start)                       errs.check_out_start       = "Jam buka absensi pulang tidak boleh kosong";
-        if (!data.check_out_end)                         errs.check_out_end         = "Jam tutup absensi pulang tidak boleh kosong";
+        if (!data.max_attendance_radius) errs.max_attendance_radius = "Maksimum radius absensi tidak boleh kosong";
+        if (!data.check_in_start) errs.check_in_start = "Jam buka absensi masuk tidak boleh kosong";
+        if (!data.check_in_end) errs.check_in_end = "Jam tutup absensi masuk tidak boleh kosong";
+        if (!data.check_out_start) errs.check_out_start = "Jam buka absensi pulang tidak boleh kosong";
+        if (!data.check_out_end) errs.check_out_end = "Jam tutup absensi pulang tidak boleh kosong";
         setError(errs);
         return Object.keys(errs).length === 0;
     };
@@ -296,7 +294,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
     const submitForm = () => {
         post("/admin/app-setting/update", {
             preserveScroll: true,
-            preserveState:  true,
+            preserveState: true,
             onSuccess: () => {
                 BlastSonner({ message: "Pengaturan berhasil disimpan", type: BlastType.SUCCESS });
                 setTimeout(() => window.location.reload(), 1000);
@@ -316,7 +314,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
         <MainLayout title={title}>
             <PageTitle
                 title={title}
-                description="Pengaturan Sistem Absensi Digital Prakerin SMK Agung Mulia"
+                description="Pengaturan Sistem Absensi Digital PKL SMK 11 Maret Cikarang"
             />
             <form onSubmit={handleSubmit}>
 
@@ -528,7 +526,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
                                 latitude={data.default_latitude ?? undefined}
                                 longitude={data.default_longitude ?? undefined}
                                 onLocationPicked={(lat, lon) => {
-                                    setData("default_latitude",  lat);
+                                    setData("default_latitude", lat);
                                     setData("default_longitude", lon);
                                 }}
                             />
@@ -582,9 +580,8 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
                             checkOutEnd={data.check_out_end}
                         />
 
-                        {/* TSM — pakai global setting */}
                         <MajorTimeRow
-                            major="TSM (Teknik Sepeda Motor)"
+                            major="MP (Manajemen Perkantoran)"
                             type="global"
                             badge="Jam Global"
                             badgeColor="bg-blue-100 text-blue-700"
@@ -594,20 +591,52 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
                             checkOutEnd={data.check_out_end}
                         />
 
-                        {/* TBOG — pakai sistem shift */}
                         <MajorTimeRow
-                            major="TBOG (Tata Boga)"
+                            major="AK (Akuntansi Keuangan)"
+                            type="global"
+                            badge="Jam Global"
+                            badgeColor="bg-blue-100 text-blue-700"
+                            checkInStart={data.check_in_start}
+                            checkInEnd={data.check_in_end}
+                            checkOutStart={data.check_out_start}
+                            checkOutEnd={data.check_out_end}
+                        />
+
+                        <MajorTimeRow
+                            major="TKR (Teknik Kendaraan Ringan)"
+                            type="global"
+                            badge="Jam Global"
+                            badgeColor="bg-blue-100 text-blue-700"
+                            checkInStart={data.check_in_start}
+                            checkInEnd={data.check_in_end}
+                            checkOutStart={data.check_out_start}
+                            checkOutEnd={data.check_out_end}
+                        />
+
+                        <MajorTimeRow
+                            major="TBSM (Teknik Bisnis Sepeda Motor)"
+                            type="global"
+                            badge="Jam Global"
+                            badgeColor="bg-blue-100 text-blue-700"
+                            checkInStart={data.check_in_start}
+                            checkInEnd={data.check_in_end}
+                            checkOutStart={data.check_out_start}
+                            checkOutEnd={data.check_out_end}
+
+                        />
+                        <MajorTimeRow
+                            major="Shift Jurusan"
                             type="shift"
                             badge="Sistem Shift"
                             badgeColor="bg-purple-100 text-purple-700"
                         />
                     </div>
 
-                    {/* ── Pengaturan Jam Global untuk TKJ & TSM ── */}
+                    {/* ── Pengaturan Jam Global ── */}
                     <div className="p-4 rounded-xl border border-blue-200 bg-blue-50">
                         <h4 className="text-sm font-semibold text-blue-700 mb-3 flex items-center gap-2">
                             <FiClock size={14} />
-                            Atur Jam Global (TKJ & TSM)
+                            Atur Jam Global (TKJ, MP, AK, TKR & TBSM)
                         </h4>
 
                         {/* Jam Absensi Masuk */}
@@ -659,15 +688,15 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
                         </div>
                     </div>
 
-                    {/* Info TBOG shift */}
+                    {/* Info shift */}
                     <div className="mt-3 p-4 rounded-xl border border-purple-200 bg-purple-50">
                         <h4 className="text-sm font-semibold text-purple-700 mb-1 flex items-center gap-2">
                             <FiClock size={14} />
-                            Pengaturan Shift TBOG
+                            Pengaturan Shift
                         </h4>
                         <p className="text-sm text-purple-600 mb-3">
-                            Jam absensi TBOG dikelola terpisah berdasarkan shift per lokasi hotel PKL.
-                            Siswa TBOG memilih shift aktif setiap hari sebelum absen.
+                            Jam absensi dikelola terpisah berdasarkan shift per lokasi PKL.
+                            Siswa memilih shift aktif setiap hari sebelum absen.
                         </p>
                         <Link href="/admin/shift">
                             <Button
@@ -677,7 +706,7 @@ export default function AppSetting({ title, app_setting }: AppSettingProps) {
                                 className="border-purple-300 text-purple-700 hover:bg-purple-100 flex items-center gap-2"
                             >
                                 <FiExternalLink size={14} />
-                                Buka Halaman Manajemen Shift TBOG
+                                Buka Halaman Manajemen Shift
                             </Button>
                         </Link>
                     </div>

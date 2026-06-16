@@ -4,7 +4,7 @@ Siswa Magang Absensi is a web-based attendance application that utilizes GPS loc
 
 ## Author
 
-This project is developed by [zennmhtr](https://github.com/zennmhtr).
+This project is developed by [ZanZan17](https://github.com/ZanZan17).
 
 ## Tech Stack
 
@@ -41,7 +41,7 @@ Ensure you have the following installed:
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/zennmhtr/attendance_intern_student.git
+    git clone https://github.com/zanzan17/attendance_intern_student.git
     cd attendance_intern_student/attendance_intern_student
     ```
 

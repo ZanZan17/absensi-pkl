@@ -70,7 +70,7 @@ class SupervisorController extends Controller
 
             if ($conflictingWorkshops->isNotEmpty()) {
                 return back()->withErrors([
-                    'message' => 'Beberapa Lokasi Prakerin sudah memiliki pembimbing yang ditugaskan',
+                    'message' => 'Beberapa Lokasi PKL sudah memiliki pembimbing yang ditugaskan',
                 ]);
             }
         }
@@ -141,7 +141,7 @@ class SupervisorController extends Controller
 
             if ($conflictingWorkshops) {
             return back()->withErrors([
-                'message' => 'Beberapa Lokasi Prakerin sudah memiliki pembimbing yang ditugaskan',
+                'message' => 'Beberapa Lokasi PKL sudah memiliki pembimbing yang ditugaskan',
             ]);
             }
 

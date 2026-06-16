@@ -4,7 +4,7 @@ import { Button } from "@/Components/ui/button";
 import { Card } from "@/Components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "../../../Components/ui/tabs";
 import { MainLayout } from "@/Layouts/MainLayout";
-import { PageTitle } from "@/Partials/PageTitle";
+import { PageTitle  } from "@/Partials/PageTitle";
 import { inputDebounce } from "@/Services/additionalService";
 import { Student } from "@/Types/student";
 import { Link, router, useForm } from "@inertiajs/react";
@@ -20,8 +20,10 @@ export type AdminStudentIndexProps = {
 
 const MAJORS = [
     { value: "TKJ", label: "TEKNIK KOMPUTER JARINGAN", shortLabel: "TKJ" },
-    { value: "TSM", label: "TEKNIK SEPEDA MOTOR", shortLabel: "TSM" },
-    { value: "TBOG", label: "TATA BOGA", shortLabel: "TBOG" },
+    { value: "MP", label: "MANAJEMEN PERKANTORAN", shortLabel: "MP" },
+    { value: "AK", label: "AKUNTANSI KEUANGAN", shortLabel: "AK" },
+    { value: "TKR", label: "TEKNIK KENDARAAN RINGAN", shortLabel: "TKR" },
+    { value: "TBSM", label: "TEKNIK BISNIS SEPEDA MOTOR", shortLabel: "TBSM" },
 ] as const;
 
 type MajorValue = typeof MAJORS[number]["value"];
@@ -65,6 +67,10 @@ function filterByMajorAndGelombang(data: Student[], majorValue: MajorValue, gelo
     return data.filter((s) => {
         if (!isMajorMatch(s, majorValue)) return false;
         const normalized = normalizeGelombang(s.gelombang);
+
+        // Jika gelombang NULL/undefined, masukkan ke Gelombang 1 sebagai default
+        if (normalized === null && gelombang === "G1") return true;
+
         return normalized === targetGelombang;
     });
 }
@@ -164,10 +170,14 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
     const [pages, setPages] = useState<Record<string, number>>({
         "TKJ_G1": 1,
         "TKJ_G2": 1,
-        "TSM_G1": 1,
-        "TSM_G2": 1,
-        "TBOG_G1": 1,
-        "TBOG_G2": 1,
+        "MP_G1": 1,
+        "MP_G2": 1,
+        "AK_G1": 1,
+        "AK_G2": 1,
+        "TKR_G1": 1,
+        "TKR_G2": 1,
+        "TBSM_G1": 1,
+        "TBSM_G2": 1,
     });
 
     const [importDrawerOpen, setImportDrawerOpen] = useState<boolean>(false);
@@ -226,8 +236,10 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
                     setStudentsData(page.props.students as Student[]);
                     setPages({
                         "TKJ_G1": 1, "TKJ_G2": 1,
-                        "TSM_G1": 1, "TSM_G2": 1,
-                        "TBOG_G1": 1, "TBOG_G2": 1,
+                        "MP_G1": 1, "MP_G2": 1,
+                        "AK_G1": 1, "AK_G2": 1,
+                        "TKR_G1": 1, "TKR_G2": 1,
+                        "TBSM_G1": 1, "TBSM_G2": 1,
                     });
                 },
                 onError: (error: any) => {
@@ -244,7 +256,7 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
     };
 
     const handleMajorChange = (value: string) => {
-        if (value !== "TKJ" && value !== "TSM" && value !== "TBOG") return;
+        if (value !== "TKJ" && value !== "MP" && value !== "AK" && value !== "TKR" && value !== "TBSM") return;
         setActiveMajor(value as MajorValue);
         setSearchValue("");
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -307,7 +319,7 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
                     className="w-full bg-green-200 border mb-3 hover:bg-green-300 flex justify-center items-center gap-2"
                 >
                     <PlusCircle size={20} />
-                    <span>Tambah Siswa Prakerin</span>
+                    <span>Tambah Siswa PKL</span>
                 </Button>
             </Link>
 
@@ -318,7 +330,7 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
                 className="w-full bg-blue-200 border mb-5 hover:bg-blue-300 flex justify-center items-center gap-2"
             >
                 <ArrowUpFromLine size={20} />
-                <span>Import Data Siswa Prakerin</span>
+                <span>Import Data Siswa PKL</span>
             </Button>
 
             <Tabs
@@ -327,37 +339,15 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
                 onValueChange={handleMajorChange}
                 className="w-full mb-3"
             >
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="flex flex-wrap w-full h-auto gap-1 p-1">
                     {MAJORS.map((major) => (
-                        <TabsTrigger key={major.value} value={major.value} className="flex gap-2">
+                        <TabsTrigger key={major.value} value={major.value} className="flex gap-2 flex-1 min-w-[80px]">
                             {major.shortLabel}
                             <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">
                                 {getMajorTotalCount(major.value)}
                             </span>
                         </TabsTrigger>
                     ))}
-                </TabsList>
-            </Tabs>
-
-            <Tabs
-                defaultValue="G1"
-                value={activeGelombang}
-                onValueChange={handleGelombangChange}
-                className="w-full mb-5"
-            >
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="G1" className="flex gap-2">
-                        Gelombang 1
-                        <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">
-                            {getMajorGelombangCount(activeMajor, "G1")}
-                        </span>
-                    </TabsTrigger>
-                    <TabsTrigger value="G2" className="flex gap-2">
-                        Gelombang 2
-                        <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">
-                            {getMajorGelombangCount(activeMajor, "G2")}
-                        </span>
-                    </TabsTrigger>
                 </TabsList>
             </Tabs>
 
@@ -369,7 +359,7 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
             />
 
             <ImportFileDrawer
-                title="Import Data Siswa Prakerin"
+                title="Import Data Siswa PKL"
                 description="Import data siswa dari file excel"
                 file={data.file_excel}
                 onFileChange={(file: File | null) => setData("file_excel", file)}
@@ -399,7 +389,7 @@ export default function AdminStudentIndex({ title, students }: AdminStudentIndex
                                         {student.major ?? "Tanpa jurusan"}
                                     </p>
                                     <p className="text-xs text-gray-500">
-                                        <b>Tempat Prakerin : {student.workshop?.name ?? "Belum ditentukan"}</b>
+                                        <b>Tempat PKL : {student.workshop?.name ?? "Belum ditentukan"}</b>
                                     </p>
                                     {student.gelombang !== null && student.gelombang !== undefined && (
                                         <p className="text-xs text-blue-500 mt-1">

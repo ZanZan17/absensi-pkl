@@ -30,21 +30,29 @@ class AttendanceController extends Controller
         return in_array(strtoupper($student->major ?? ''), self::SHIFT_MAJORS);
     }
 
+    /**
+     * Bangun Carbon hari ini dengan jam dari string "HH:MM:SS" atau "HH:MM".
+     * Aman dari bug Carbon::parse() yang kadang menghasilkan tanggal berbeda.
+     */
+    private function todayAt(string $timeString): Carbon
+    {
+        return Carbon::today()->setTimeFromTimeString($timeString);
+    }
+
     private function currentAttendanceTimeByShift(Shift $shift): string
     {
         $now       = now();
-        $tolerance = 15; // menit
+        $tolerance = 15;
 
-        $checkInStart  = Carbon::parse($shift->check_in_start)->subMinutes($tolerance);
-        $checkInEnd    = Carbon::parse($shift->check_in_end)->addMinutes($tolerance);
-        $checkOutStart = Carbon::parse($shift->check_out_start)->subMinutes($tolerance);
-        $checkOutEnd   = Carbon::parse($shift->check_out_end)->addMinutes($tolerance);
+        $checkInStart  = $this->todayAt($shift->check_in_start)->subMinutes($tolerance);
+        $checkInEnd    = $this->todayAt($shift->check_in_end)->addMinutes($tolerance);
+        $checkOutStart = $this->todayAt($shift->check_out_start)->subMinutes($tolerance);
+        $checkOutEnd   = $this->todayAt($shift->check_out_end)->addMinutes($tolerance);
 
-        foreach ([$checkInStart, $checkInEnd, $checkOutStart, $checkOutEnd] as $t) {
-            $t->setDate($now->year, $now->month, $now->day);
-        }
-
-        if ($checkOutEnd->lt($checkOutStart)) {
+        // Handle overnight shift: jika check_out_start < check_in_start,
+        // berarti pulang di hari BERIKUTNYA → geser window pulang +1 hari
+        if ($checkOutStart->lt($checkInStart)) {
+            $checkOutStart->addDay();
             $checkOutEnd->addDay();
         }
 
@@ -59,16 +67,15 @@ class AttendanceController extends Controller
         $now       = now();
         $tolerance = 15;
 
-        $checkInStart  = Carbon::parse($setting->check_in_start)->subMinutes($tolerance);
-        $checkInEnd    = Carbon::parse($setting->check_in_end)->addMinutes($tolerance);
-        $checkOutStart = Carbon::parse($setting->check_out_start)->subMinutes($tolerance);
-        $checkOutEnd   = Carbon::parse($setting->check_out_end)->addMinutes($tolerance);
+        $checkInStart  = $this->todayAt($setting->check_in_start)->subMinutes($tolerance);
+        $checkInEnd    = $this->todayAt($setting->check_in_end)->addMinutes($tolerance);
+        $checkOutStart = $this->todayAt($setting->check_out_start)->subMinutes($tolerance);
+        $checkOutEnd   = $this->todayAt($setting->check_out_end)->addMinutes($tolerance);
 
-        foreach ([$checkInStart, $checkInEnd, $checkOutStart, $checkOutEnd] as $t) {
-            $t->setDate($now->year, $now->month, $now->day);
-        }
-
-        if ($checkOutEnd->lt($checkOutStart)) {
+        // Handle overnight shift: jika check_out_start < check_in_start,
+        // berarti pulang di hari BERIKUTNYA → geser window pulang +1 hari
+        if ($checkOutStart->lt($checkInStart)) {
+            $checkOutStart->addDay();
             $checkOutEnd->addDay();
         }
 
@@ -76,6 +83,25 @@ class AttendanceController extends Controller
         if ($now->between($checkOutStart, $checkOutEnd)) return 'PULANG';
 
         return 'DI LUAR WAKTU';
+    }
+
+    /**
+     * Cek apakah siswa sudah absen MASUK hari ini (tapi belum absen PULANG).
+     * Digunakan untuk memastikan PULANG hanya bisa dilakukan setelah MASUK.
+     */
+    private function hasCheckedInToday(int $studentId): bool
+    {
+        return Attendance::where('student_id', $studentId)
+            ->whereDate('check_in', now()->toDateString())
+            ->exists();
+    }
+
+    private function hasCheckedOutToday(int $studentId): bool
+    {
+        return Attendance::where('student_id', $studentId)
+            ->whereDate('check_in', now()->toDateString())
+            ->whereNotNull('check_out')
+            ->exists();
     }
 
     public function index(Request $request)
@@ -136,7 +162,25 @@ class AttendanceController extends Controller
 
         $attendance_time_name = null;
         if (!$isShiftMajor) {
-            $attendance_time_name = $this->currentAttendanceTimeByGlobal($setting);
+            $rawTime   = $this->currentAttendanceTimeByGlobal($setting);
+            $studentId = $user->student->id;
+
+            // Jika waktu MASUK tapi sudah absen masuk hari ini → arahkan ke PULANG
+            if ($rawTime === 'MASUK' && $this->hasCheckedInToday($studentId)) {
+                $rawTime = 'PULANG';
+            }
+
+            // Jika waktu PULANG tapi belum absen masuk hari ini → blok
+            if ($rawTime === 'PULANG' && !$this->hasCheckedInToday($studentId)) {
+                $rawTime = 'BELUM_MASUK';
+            }
+
+            // Jika sudah absen pulang hari ini → selesai
+            if ($this->hasCheckedOutToday($studentId)) {
+                $rawTime = 'SUDAH_PULANG';
+            }
+
+            $attendance_time_name = $rawTime;
         }
 
         $preselectedShiftId = null;
@@ -148,11 +192,11 @@ class AttendanceController extends Controller
             'title'                => 'Absensi',
             'student'              => $student,
             'max_radius'           => $setting->max_attendance_radius,
-            'shifts'               => $shifts,               // [] jika TKJ/TSM
+            'shifts'               => $shifts,
             'is_shift_major'       => $isShiftMajor,
-            'attendance_time_name' => $attendance_time_name, // null jika TBOG
-            'preselected_shift_id'   => $preselectedShiftId,    // dari Dashboard
-            'utm_source'             => $request->utm_source ?? null,
+            'attendance_time_name' => $attendance_time_name,
+            'preselected_shift_id' => $preselectedShiftId,
+            'utm_source'           => $request->utm_source ?? null,
         ]);
     }
 
@@ -162,6 +206,7 @@ class AttendanceController extends Controller
         $student = Student::where('id', $user->student->id)->first();
         $setting = GlobalSetting::first();
         $today   = now()->toDateString();
+
         if ($this->isShiftMajor($student)) {
             $request->validate([
                 'shift_id' => 'required|exists:shifts,id',
@@ -187,9 +232,21 @@ class AttendanceController extends Controller
                 Session::flash('error', "Bukan waktu absen. Toleransi 15 menit dari window absensi.");
                 return back();
             }
+
+            // Override: jika waktu MASUK tapi sudah absen masuk hari ini → PULANG
+            if ($attendance_time_name === 'MASUK' && $this->hasCheckedInToday($user->student->id)) {
+                $attendance_time_name = 'PULANG';
+            }
         }
 
         if ($attendance_time_name === 'MASUK') {
+
+            // Cegah double absen masuk
+            if ($this->hasCheckedInToday($user->student->id)) {
+                Session::flash('error', 'Kamu sudah absen masuk hari ini.');
+                return back();
+            }
+
             $request->validate([
                 'latitude_in'  => 'required|numeric',
                 'longitude_in' => 'required|numeric',
@@ -216,10 +273,21 @@ class AttendanceController extends Controller
 
             $existingIn = Attendance::where('student_id', $user->student->id)
                 ->whereDate('check_in', $today)
+                ->whereNull('check_out')
                 ->first();
 
             if (!$existingIn) {
-                Session::flash('error', 'Kamu belum absen masuk hari ini.');
+                // Cek apakah belum masuk atau sudah pulang
+                $alreadyOut = Attendance::where('student_id', $user->student->id)
+                    ->whereDate('check_in', $today)
+                    ->whereNotNull('check_out')
+                    ->exists();
+
+                $message = $alreadyOut
+                    ? 'Kamu sudah absen pulang hari ini.'
+                    : 'Kamu belum absen masuk hari ini.';
+
+                Session::flash('error', $message);
                 return back();
             }
 

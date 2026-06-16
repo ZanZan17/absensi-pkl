@@ -50,7 +50,7 @@ class StudentController extends Controller
         }
 
         return Inertia::render('Admin/Student/Index', [
-            'title'    => 'Data Siswa Prakerin',
+            'title'    => 'Data Siswa PKL',
             'students' => $students,
         ]);
     }
@@ -80,7 +80,7 @@ class StudentController extends Controller
         ];
 
         return Inertia::render('Admin/Student/Show', [
-            'title'           => 'Informasi Siswa Prakerin',
+            'title'           => 'Informasi Siswa PKL',
             'student'         => $student,
             'latest_activity' => $latest_activity,
         ]);
@@ -103,7 +103,7 @@ class StudentController extends Controller
             ->map(fn($w) => ['value' => (string) $w->id, 'label' => $w->name]);
 
         return Inertia::render('Admin/Student/Edit', [
-            'title'     => 'Edit Siswa Prakerin',
+            'title'     => 'Edit Siswa PKL',
             'student'   => $student,
             'workshops' => $workshops,
         ]);
@@ -117,7 +117,7 @@ class StudentController extends Controller
             ->map(fn($w) => ['value' => (string) $w->id, 'label' => $w->name]);
 
         return Inertia::render('Admin/Student/Create', [
-            'title'     => 'Tambah Siswa Prakerin',
+            'title'     => 'Tambah Siswa PKL',
             'workshops' => $workshops,
         ]);
     }
@@ -153,7 +153,7 @@ class StudentController extends Controller
             ]
         ));
 
-        Session::flash('success', 'Siswa Prakerin baru berhasil ditambahkan');
+        Session::flash('success', 'Siswa PKL baru berhasil ditambahkan');
         return Inertia::location('/admin/student');
     }
 
@@ -221,10 +221,10 @@ class StudentController extends Controller
             ->get()
             ->map(fn($w) => ['value' => (string) $w->id, 'label' => $w->name]);
 
-        Session::flash('success', 'Siswa Prakerin berhasil diperbarui');
+        Session::flash('success', 'Siswa PKL berhasil diperbarui');
 
         return Inertia::render('Admin/Student/Edit', [
-            'title'     => 'Edit Siswa Prakerin',
+            'title'     => 'Edit Siswa PKL',
             'student'   => $student,
             'workshops' => $workshops,
         ]);

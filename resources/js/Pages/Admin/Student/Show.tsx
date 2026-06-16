@@ -62,7 +62,7 @@ export default function AdminStudentShow({
                 <div className="z-10">
                     <div className="flex items-center gap-2 mb-3">
                         <IdCard className="text-slate-500" />
-                        <h3 className="text-lg font-semibold">Identitas Siswa (Prakerin)</h3>
+                        <h3 className="text-lg font-semibold">Identitas Siswa (PKL)</h3>
                     </div>
                     <div className="flex flex-col gap-1">
                         <p className="text-muted font-semibold text-sm"></p>
@@ -71,11 +71,11 @@ export default function AdminStudentShow({
                 <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-blue-100 to-white rounded-l-md"></div>
                 <div className="flex flex-col z-10">
                     <KeyAndValue
-                        keyIdentifier="NISN Siswa Prakerin"
+                        keyIdentifier="NISN Siswa PKL"
                         value={student.nis?.toString()}
                     />
                     <KeyAndValue
-                        keyIdentifier="Nama Siswa Prakerin"
+                        keyIdentifier="Nama Siswa PKL"
                         value={student.full_name}
                     />
                     <KeyAndValue
@@ -90,7 +90,7 @@ export default function AdminStudentShow({
                 <div className="z-10">
                     <div className="flex items-center gap-2 mb-3">
                         <FaUserGear className="text-slate-500" size={18} />
-                        <h3 className="text-lg font-semibold">Pembimbing Siswa (Prakerin)</h3>
+                        <h3 className="text-lg font-semibold">Pembimbing Siswa (PKL)</h3>
                     </div>
                     <div className="flex flex-col gap-1">
                         <p className="text-muted font-semibold text-sm"></p>
@@ -120,7 +120,7 @@ export default function AdminStudentShow({
                     </div>
                 ) : (
                     <p className="text-base z-10">
-                        Siswa tidak memiliki pembimbing Prakerin
+                        Siswa tidak memiliki pembimbing PKL
                     </p>
                 )}
             </Card>
@@ -132,7 +132,7 @@ export default function AdminStudentShow({
                             size={18}
                         />
                         <h3 className="text-lg font-semibold">
-                            Lokasi Siswa (Prakerin)
+                            Lokasi Siswa (PKL)
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -142,7 +142,7 @@ export default function AdminStudentShow({
                 <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-blue-100 to-white rounded-l-md"></div>
                 {student.workshop == null ? (
                     <p className="text-base z-10">
-                        Siswa tidak memiliki tempat Prakerin
+                        Siswa tidak memiliki tempat PKL
                     </p>
                 ) : (
                     <div className="flex flex-col z-10">
@@ -151,7 +151,7 @@ export default function AdminStudentShow({
                             href={`/admin/workshop/${student?.workshop?.id}`}
                         >
                             <KeyAndValue
-                                keyIdentifier="Nama Lokasi Prakerin"
+                                keyIdentifier="Nama Lokasi PKL"
                                 value={`${student?.workshop?.name} `}
                             />
                             <ChevronRight className="mt-3" size={18} />
@@ -165,7 +165,7 @@ export default function AdminStudentShow({
                             value={student.workshop?.phone}
                         />
                         <KeyAndValue
-                            keyIdentifier="Alamat Lokasi Prakerin"
+                            keyIdentifier="Alamat Lokasi PKL"
                             value={student.workshop?.address}
                         />
                     </div>

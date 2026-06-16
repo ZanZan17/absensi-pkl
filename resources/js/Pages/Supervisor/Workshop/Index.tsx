@@ -53,17 +53,17 @@ export default function SupervisorWorkshopIndex({
     };
 
     return (
-        <MainLayout title="Data Lokasi Prakerin">
+        <MainLayout title="Data Lokasi PKL">
             <PageTitle
                 title={title as string}
-                description="Lokasi Prakerin yang ditempati oleh Siswa/i Anda"
+                description="Lokasi PKL yang ditempati oleh Siswa/i Anda"
             />
 
             <SearchInput
                 className="mb-5"
                 value={searchValue}
                 onChange={handleSearch}
-                placeholder="Cari Lokasi Prakerin atau alamatnya"
+                placeholder="Cari Lokasi PKL atau alamatnya"
             />
 
             <div className="grid grid-cols-1">

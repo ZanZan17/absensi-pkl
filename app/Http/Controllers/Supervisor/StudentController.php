@@ -83,7 +83,7 @@ class StudentController extends Controller
             ->get();
 
         return Inertia::render('Supervisor/Student/Index', [
-            'title'     => 'Daftar Siswa Prakerin',
+            'title'     => 'Daftar Siswa PKL',
             'students'  => $students->items(),
             'workshops' => $workshops,
         ]);
@@ -113,7 +113,7 @@ class StudentController extends Controller
         ];
 
         return Inertia::render('Supervisor/Student/Show', [
-            'title'           => 'Informasi Siswa Prakerin',
+            'title'           => 'Informasi Siswa PKL',
             'student'         => $student,
             'latest_activity' => $latest_activity,
         ]);
@@ -292,7 +292,7 @@ class StudentController extends Controller
             ->paginate(20);
 
         return Inertia::render('Supervisor/Student/Journal/Index', [
-            'title'           => 'Jurnal Prakerin Siswa',
+            'title'           => 'Jurnal PKL Siswa',
             'journals'        => $journals->items(),
             'student_options' => $student_options->map(function ($student) {
                 return [
@@ -308,7 +308,7 @@ class StudentController extends Controller
         $journal = Journal::with('student')->findOrFail($id);
 
         return Inertia::render('Supervisor/Student/Journal/Show', [
-            'title'   => 'Detail Jurnal Prakerin',
+            'title'   => 'Detail Jurnal PKL',
             'journal' => $journal,
         ]);
     }

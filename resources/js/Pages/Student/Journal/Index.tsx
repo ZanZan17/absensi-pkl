@@ -120,22 +120,24 @@ export default function StudentJournalIndex({
     );
 
     const handleMonth = (month: string | undefined) => {
-        setMonthFilter(month || "");
-        debounceValue(dateFilter, month || "");
-        setDateFilter("");
-    };
+    const monthVal = month || "";
+    setMonthFilter(monthVal);
+    setDateFilter("");
+    debounceValue("", monthVal); // langsung pakai "" bukan dateFilter
+};
 
-    const handleDate = (date: string | undefined) => {
-        setMonthFilter("");
-        setDateFilter(date || "");
-        debounceValue(date || "");
+const handleDate = (date: string | undefined) => {
+    const dateVal = date || "";
+    setMonthFilter("");
+    setDateFilter(dateVal);
+    debounceValue(dateVal, "");
     };
 
     return (
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Aktivitas yang kamu lakukan selama Prakerin"
+                description="Aktivitas yang kamu lakukan selama PKL"
             />
 
             <div className="grid grid-cols-2 gap-3 mb-5">
@@ -181,12 +183,11 @@ export default function StudentJournalIndex({
                 </Link>
             )}
             <Popover>
-                <PopoverTrigger asChild className="w-full">
-                    <Button
-                        size={"lg"}
-                        variant="outline"
-                        disabled={journalsData.length === 0}
-                        className="w-full bg-blue-200 border mb-5 hover:bg-blue-300 flex justify-center items-center gap-2"
+                <PopoverTrigger asChild>
+    <Button
+        size={"lg"}
+        variant="outline"
+        className="w-full bg-blue-200 border mb-5 hover:bg-blue-300 flex justify-center items-center gap-2 cursor-pointer"
                     >
                         <FileDown size={20} />
                         <span>Export Jurnal</span>

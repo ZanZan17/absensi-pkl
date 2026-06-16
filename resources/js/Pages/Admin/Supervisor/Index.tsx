@@ -90,7 +90,7 @@ export default function AdminSupervisorIndex({
         <MainLayout title="Data Pembimbing">
             <PageTitle
                 title={title as string}
-                description="Data pembinbing yang bertugas di Lokasi Prakerin"
+                description="Data pembinbing yang bertugas di Lokasi PKL"
             />
 
             <SearchInput
@@ -169,7 +169,7 @@ export default function AdminSupervisorIndex({
                                                         supervisor?.workshops
                                                             ?.length
                                                     }{" "}
-                                                    Lokasi Prakerin
+                                                    Lokasi PKL
                                                 </span>
                                             </p>
                                             <p className="text-base">
@@ -188,7 +188,7 @@ export default function AdminSupervisorIndex({
                                         </div>
                                     ) : (
                                         <p className="text-base">
-                                            Tidak bertugas di Lokasi Prakerin apapun
+                                            Tidak bertugas di Lokasi PKL apapun
                                         </p>
                                     )}
                                 </div>

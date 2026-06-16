@@ -45,7 +45,7 @@ export default function AdminWorkshopCreate({
 
     const handleErrorInput = () => {
         const fields: { key: keyof typeof data; message: string }[] = [
-            { key: "name", message: "Nama Lokasi Prakerin tidak boleh kosong" },
+            { key: "name", message: "Nama Lokasi PKL tidak boleh kosong" },
             { key: "owner_name", message: "Nama Pimpinan / Pendamping tidak boleh kosong" },
             { key: "phone", message: "No. Telepon tidak boleh kosong" },
             { key: "address", message: "Alamat tidak boleh kosong" },
@@ -128,15 +128,15 @@ export default function AdminWorkshopCreate({
         <MainLayout title={title || ""}>
             <PageTitle
                 title={title || "Tambah Workshop"}
-                description="Mendaftarkan Lokasi Prakerin baru ke sistem"
+                description="Mendaftarkan Lokasi PKL baru ke sistem"
             />
             <form onSubmit={handleSubmit}>
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">Nama Lokasi Prakerin</label>
+                        <label className="text-base mb-1">Nama Lokasi PKL</label>
                         <Input
                             type="text"
-                            placeholder="Masukkan Nama Lokasi Prakerin"
+                            placeholder="Masukkan Nama Lokasi PKL"
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             className={`py-6 ${
@@ -188,7 +188,7 @@ export default function AdminWorkshopCreate({
                 <div className="mb-5">
                     <div className="flex flex-col">
                         <label className="text-base mb-1">
-                            Pembimbing Prakerin yang ditugaskan (Bisa nanti)
+                            Pembimbing PKL yang ditugaskan (Bisa nanti)
                         </label>
                         <SelectSearchInput
                             value={data.supervisor_id}
@@ -350,7 +350,7 @@ export default function AdminWorkshopCreate({
                 <div className="mb-5">
                     <div className="flex flex-col">
                         <label className="text-base mb-1">
-                            Koordinat Alamat Lokasi Prakerin
+                            Koordinat Alamat Lokasi PKL
                         </label>
 
                         <div className="relative overflow-hidden">
@@ -387,7 +387,7 @@ export default function AdminWorkshopCreate({
                         </div>
 
                         {errors.latitude && errors.longitude && (
-                            <ErrorInput error="Tentukan koordinat Lokasi Prakerin" />
+                            <ErrorInput error="Tentukan koordinat Lokasi PKL" />
                         )}
                     </div>
                 </div>

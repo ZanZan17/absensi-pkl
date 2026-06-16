@@ -20,7 +20,7 @@ class WorkshopController extends Controller
             ])->first();
 
         return Inertia::render('Student/Workshop/Index', [
-            'title' => 'Lokasi Prakerin Kamu',
+            'title' => 'Lokasi PKL Kamu',
             'workshop' => $student?->workshop,
         ]);
     }

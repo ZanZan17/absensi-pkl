@@ -284,7 +284,7 @@ export default function StudentAttendance({
                     {/* ── Info Siswa ── */}
                     <div className="mb-5">
                         <KeyAndValue
-                            keyIdentifier="Lokasi Prakerin"
+                            keyIdentifier="Lokasi PKL"
                             value={student?.workshop?.name}
                         />
                         <KeyAndValue
@@ -399,7 +399,7 @@ export default function StudentAttendance({
                                 }
                             />
                             {!data.isInRadius && (
-                                <ErrorInput error="Kamu terlalu jauh dari Lokasi Prakerin" />
+                                <ErrorInput error="Kamu terlalu jauh dari Lokasi PKL" />
                             )}
                         </div>
                     )}

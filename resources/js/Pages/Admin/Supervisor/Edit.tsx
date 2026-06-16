@@ -150,7 +150,7 @@ export default function AdminSupervisorEdit({
                 </div>
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">Lokasi Prakerin</label>
+                        <label className="text-base mb-1">Lokasi PKL</label>
                         <MultiSelectSearchInput
                             values={data.workshop_id}
                             options={workshops}

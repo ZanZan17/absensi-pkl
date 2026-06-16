@@ -130,16 +130,16 @@ export default function AdminWorkshopEdit({
     return (
         <MainLayout title={title || ""}>
             <PageTitle
-                title={title || "Edit Lokasi Prakerin"}
-                description="Perbarui Data Lokasi Prakerin"
+                title={title || "Edit Lokasi PKL"}
+                description="Perbarui Data Lokasi PKL"
             />
             <form onSubmit={handleSubmit}>
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">Nama Lokasi Prakerin</label>
+                        <label className="text-base mb-1">Nama Lokasi PKL</label>
                         <Input
                             type="text"
-                            placeholder="Masukkan Nama Lokasi Prakerin"
+                            placeholder="Masukkan Nama Lokasi PKL"
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             className={`py-6 ${
@@ -191,7 +191,7 @@ export default function AdminWorkshopEdit({
                 <div className="mb-5">
                     <div className="flex flex-col">
                         <label className="text-base mb-1">
-                            Pembimbing Prakerin yang ditugaskan (Bisa nanti)
+                            Pembimbing PKL yang ditugaskan (Bisa nanti)
                         </label>
                         <SelectSearchInput
                             value={data.supervisor_id}
@@ -353,7 +353,7 @@ export default function AdminWorkshopEdit({
                 <div className="mb-5">
                     <div className="flex flex-col">
                         <label className="text-base mb-1">
-                            Koordinat Alamat Lokasi Prakerin
+                            Koordinat Alamat Lokasi PKL
                         </label>
 
                         <div className="relative overflow-hidden">
@@ -395,7 +395,7 @@ export default function AdminWorkshopEdit({
                         </div>
 
                         {errors.latitude && errors.longitude && (
-                            <ErrorInput error="Tentukan Koordinat Prakerin" />
+                            <ErrorInput error="Tentukan Koordinat PKL" />
                         )}
                     </div>
                 </div>

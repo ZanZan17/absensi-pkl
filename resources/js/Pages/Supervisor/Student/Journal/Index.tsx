@@ -128,13 +128,13 @@ export default function SupervisorStudentJournalIndex({
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Aktivitas yang dilakukan siswa selama Prakerin"
+                description="Aktivitas yang dilakukan siswa selama PKL"
             />
 
             <div className="grid grid-cols-2 gap-3 mb-5">
                 <SelectSearchInput
                     value={studentFilter}
-                    placeholder="Pilih Siswa Prakerin"
+                    placeholder="Pilih Siswa PKL"
                     onChange={(value) =>
                         handleStudent(value.toString() as string | undefined)
                     }

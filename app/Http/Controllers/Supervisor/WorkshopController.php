@@ -18,7 +18,7 @@ class WorkshopController extends Controller
 
         if (!$supervisor) {
             return Inertia::render('Supervisor/Workshop/Index', [
-                'title'     => 'Data Lokasi Prakerin',
+                'title'     => 'Data Lokasi PKL',
                 'workshops' => [],
             ]);
         }
@@ -33,7 +33,7 @@ class WorkshopController extends Controller
             ->paginate(20);
 
         return Inertia::render('Supervisor/Workshop/Index', [
-            'title'     => 'Data Lokasi Prakerin',
+            'title'     => 'Data Lokasi PKL',
             'workshops' => $workshops->items(),
         ]);
     }
@@ -48,7 +48,7 @@ class WorkshopController extends Controller
             ->firstOrFail();
 
         return Inertia::render('Supervisor/Workshop/Show', [
-            'title'    => 'Informasi Lokasi Prakerin',
+            'title'    => 'Informasi Lokasi PKL',
             'workshop' => $workshop,
         ]);
     }

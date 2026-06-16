@@ -29,7 +29,7 @@ class WorkshopController extends Controller
             ->get();
 
         return Inertia::render('Admin/Workshop/Index', [
-            'title'     => 'Data Lokasi Prakerin',
+            'title'     => 'Data Lokasi PKL',
             'workshops' => $workshops,
         ]);
     }
@@ -43,7 +43,7 @@ class WorkshopController extends Controller
             ->map(fn($s) => ['value' => (string) $s->id, 'label' => $s->full_name]);
 
         return Inertia::render('Admin/Workshop/Create', [
-            'title'       => 'Tambah Lokasi Prakerin',
+            'title'       => 'Tambah Lokasi PKL',
             'supervisors' => $supervisors,
         ]);
     }
@@ -80,7 +80,7 @@ class WorkshopController extends Controller
             'supervisor_id' => $supervisorId,
         ]);
 
-        Session::flash('success', 'Lokasi Prakerin baru berhasil ditambahkan');
+        Session::flash('success', 'Lokasi PKL baru berhasil ditambahkan');
         return Inertia::location('/admin/workshop');
     }
 
@@ -94,7 +94,7 @@ class WorkshopController extends Controller
         ->findOrFail($id);
 
         return Inertia::render('Admin/Workshop/Show', [
-            'title'    => 'Informasi Lokasi Prakerin',
+            'title'    => 'Informasi Lokasi PKL',
             'workshop' => $workshop,
         ]);
     }
@@ -113,7 +113,7 @@ class WorkshopController extends Controller
             ->map(fn($s) => ['value' => (string) $s->id, 'label' => $s->full_name]);
 
         return Inertia::render('Admin/Workshop/Edit', [
-            'title'       => 'Edit Lokasi Prakerin',
+            'title'       => 'Edit Lokasi PKL',
             'workshop'    => $workshop,
             'supervisors' => $supervisors,
         ]);
@@ -140,7 +140,7 @@ class WorkshopController extends Controller
                 ->exists();
 
             if ($supervisorHasOtherWorkshop) {
-                return back()->withErrors(['message' => 'Pembimbing sudah ditugaskan di Lokasi Prakerin lain']);
+                return back()->withErrors(['message' => 'Pembimbing sudah ditugaskan di Lokasi PKL lain']);
             }
         }
 
@@ -154,7 +154,7 @@ class WorkshopController extends Controller
             'supervisor_id' => $supervisorId,
         ]);
 
-        Session::flash('success', 'Lokasi Prakerin berhasil diperbarui');
+        Session::flash('success', 'Lokasi PKL berhasil diperbarui');
         return Inertia::location('/admin/workshop');
     }
 
@@ -189,7 +189,7 @@ class WorkshopController extends Controller
         $workshop = Workshop::findOrFail($id);
         $workshop->delete();
 
-        Session::flash('success', 'Lokasi Prakerin berhasil dihapus');
+        Session::flash('success', 'Lokasi PKL berhasil dihapus');
         return Inertia::location('/admin/workshop');
     }
 }

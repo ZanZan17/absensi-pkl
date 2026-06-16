@@ -37,7 +37,7 @@ export default function SupervisorStudentShow({
                 <div className="z-10">
                     <div className="flex items-center gap-2 mb-3">
                         <IdCard className="text-slate-500" />
-                        <h3 className="text-lg font-semibold">Identitas Siswa (Prakerin)</h3>
+                        <h3 className="text-lg font-semibold">Identitas Siswa (PKL)</h3>
                     </div>
                     <div className="flex flex-col gap-1">
                         <p className="text-muted font-semibold text-sm"></p>
@@ -50,7 +50,7 @@ export default function SupervisorStudentShow({
                         value={student.nis?.toString()}
                     />
                     <KeyAndValue
-                        keyIdentifier="Nama Siswa Prakerin"
+                        keyIdentifier="Nama Siswa PKL"
                         value={student.full_name}
                     />
                     <KeyAndValue
@@ -89,7 +89,7 @@ export default function SupervisorStudentShow({
                     </div>
                 ) : (
                     <p className="text-base z-10">
-                        Siswa tidak memiliki pembimbing Prakerin
+                        Siswa tidak memiliki pembimbing PKL
                     </p>
                 )}
             </Card>
@@ -101,7 +101,7 @@ export default function SupervisorStudentShow({
                             size={18}
                         />
                         <h3 className="text-lg font-semibold">
-                            Tempat Lokasi (Prakerin)
+                            Tempat Lokasi (PKL)
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -115,7 +115,7 @@ export default function SupervisorStudentShow({
                         href={`/supervisor/workshop/${student?.workshop?.id}`}
                     >
                         <KeyAndValue
-                            keyIdentifier="Nama Tempat Prakerin"
+                            keyIdentifier="Nama Tempat PKL"
                             value={`${student?.workshop?.name} `}
                         />
                         <ChevronRight className="mt-3" size={18} />
@@ -129,7 +129,7 @@ export default function SupervisorStudentShow({
                         value={student.workshop?.phone}
                     />
                     <KeyAndValue
-                        keyIdentifier="Alamat Prakerin"
+                        keyIdentifier="Alamat PKL"
                         value={student.workshop?.address}
                     />
                 </div>

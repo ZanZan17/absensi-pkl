@@ -131,7 +131,7 @@ export default function SupervisorStudentAttendanceIndex({
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Riwayat Absensi Siswa Prakerin"
+                description="Riwayat Absensi Siswa PKL"
             />
 
             <div className="grid grid-cols-2 gap-3 mb-5">

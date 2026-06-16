@@ -44,7 +44,7 @@ class StudentImport implements ToCollection, WithHeadingRow, WithStartRow
                         $workshop = Workshop::where('name', 'like', '%' . $row[5] . '%')->first();
                         if (!$workshop) {
                             throw ValidationException::withMessages([
-                                'Lokasi Prakerin' => "Lokasi PKL dengan nama '{$row[5]}' tidak ditemukan.",
+                                'Lokasi PKL' => "Lokasi PKL dengan nama '{$row[5]}' tidak ditemukan.",
                             ]);
                         }
                     }

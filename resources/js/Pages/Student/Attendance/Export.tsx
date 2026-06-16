@@ -61,7 +61,7 @@ export default function StudentAttendanceExport({
                     <span>: {student.nis}</span>
                 </div>
                 <div className="flex items-center">
-                    <div className="w-[70px]">Nama Siswa Prakerin</div>
+                    <div className="w-[70px]">Nama Siswa PKL</div>
                     <span>: {student.full_name}</span>
                 </div>
                 <div className="flex items-center">

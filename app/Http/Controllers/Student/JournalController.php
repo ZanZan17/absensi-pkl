@@ -36,7 +36,7 @@ class JournalController extends Controller
         })->orderBy('date', 'desc')->paginate(20);
 
         return Inertia::render('Student/Journal/Index', [
-            'title' => 'Jurnal Prakerin Kamu',
+            'title' => 'Jurnal PKL Kamu',
             'journals' => $journals->items(),
             'has_journal_today' => $hasJournalToday,
             'has_attended_today' => $hasAttendedToday,
@@ -56,11 +56,11 @@ class JournalController extends Controller
         }
         $journal = Journal::where('date', $now)->where('student_id', $student->id)->first();
         if ($journal) {
-            Session::flash('error', 'Kamu telah membuat Jurnal Prakerin pada hari ini');
+            Session::flash('error', 'Kamu telah membuat Jurnal PKL pada hari ini');
             return back();
         }
         return Inertia::render('Student/Journal/Create', [
-            'title' => 'Buat Jurnal Prakerin',
+            'title' => 'Buat Jurnal PKL',
             'date' => $now,
         ]);
     }
@@ -92,7 +92,7 @@ class JournalController extends Controller
     public function show($id){
         $journal = Journal::with('student')->findOrFail($id);
         return Inertia::render('Student/Journal/Show', [
-            'title' => 'Detail Jurnal Prakerin',
+            'title' => 'Detail Jurnal PKL',
             'journal' => $journal,
         ]);
     }
@@ -100,7 +100,7 @@ class JournalController extends Controller
     public function edit($id){
         $journal = Journal::findOrFail($id);
         return Inertia::render('Student/Journal/Edit', [
-            'title' => 'Detail Jurnal Prakerin',
+            'title' => 'Detail Jurnal PKL',
             'journal' => $journal,
         ]);
     }

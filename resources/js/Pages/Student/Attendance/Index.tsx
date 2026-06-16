@@ -51,16 +51,13 @@ export default function StudentAttendanceIndex({
             message: flash.error,
         });
     }
-    const [attendancesData, setAttendancesData] =
-        useState<Attendance[]>(attendances);
+    const [attendancesData, setAttendancesData] = useState<Attendance[]>(attendances);
     const [dateFilter, setDateFilter] = useState<string>("");
     const [monthFilter, setMonthFilter] = useState<string>("");
-    const [monthOptions, setMonthOptions] = useState<
-        {
-            label: string;
-            value: string;
-        }[]
-    >([]);
+    const [monthOptions, setMonthOptions] = useState<{ label: string; value: string; }[]>([]);
+    const [exportOpen, setExportOpen] = useState<boolean>(false);
+
+
     const currentTime = new Date().toISOString();
     const currentDate = new Date().toISOString().slice(0, 10);
     const todayAttendedIn = attendancesData.some(
@@ -149,7 +146,7 @@ export default function StudentAttendanceIndex({
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Riwayat Absensi Siswa Prakerin"
+                description="Riwayat Absensi Siswa PKL"
             />
 
             <div className="grid grid-cols-2 gap-3 mb-5">
@@ -235,52 +232,36 @@ export default function StudentAttendanceIndex({
                     </Link>
                 )}
 
-            <Popover>
-                <PopoverTrigger asChild className="w-full">
-                    <Button
-                        size={"lg"}
-                        variant="outline"
-                        disabled={attendancesData.length === 0}
-                        className="w-full bg-blue-200 border mb-5 hover:bg-blue-300 flex justify-center items-center gap-2"
-                    >
-                        <FileDown size={20} />
-                        <span>Export Absensi</span>
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent sideOffset={8} side={"bottom"} align="center">
-                    <a
-                        href={
-                            "/student/attendance/export?format=PDF&month=" +
-                            monthFilter
-                        }
-                        target="_blank"
-                    >
-                        <Button
-                            size={"sm"}
-                            variant="outline"
-                            className="w-full bg-amber-200 border mb-2 hover:bg-amber-300 flex justify-center items-center gap-2"
-                        >
-                            <Download size={20} />
-                            <span>Format PDF</span>
-                        </Button>
-                    </a>
-                    <a
-                        href={
-                            "/student/attendance/export?format=XLSX&month=" +
-                            monthFilter
-                        }
-                    >
-                        <Button
-                            size={"sm"}
-                            variant="outline"
-                            className="w-full bg-amber-200 border mb-2 hover:bg-amber-300 flex justify-center items-center gap-2"
-                        >
-                            <Download size={20} />
-                            <span>Format Excel</span>
-                        </Button>
-                    </a>
-                </PopoverContent>
-            </Popover>
+           <div className="relative w-full mb-5">
+    <Button
+        size={"lg"}
+        variant="outline"
+        onClick={() => setExportOpen(!exportOpen)}
+        className="w-full bg-blue-200 border hover:bg-blue-300 flex justify-center items-center gap-2"
+    >
+        <FileDown size={20} />
+        <span>Export Absensi</span>
+    </Button>
+
+    {exportOpen && (
+        <div className="absolute z-50 w-full mt-2 p-2 bg-white border rounded-xl shadow-lg">
+            <a href={"/student/attendance/export?format=PDF&month=" + monthFilter} target="_blank">
+                <Button size={"sm"} variant="outline"
+                    className="w-full bg-amber-200 border mb-2 hover:bg-amber-300 flex justify-center items-center gap-2">
+                    <Download size={20} />
+                    <span>Format PDF</span>
+                </Button>
+            </a>
+            <a href={"/student/attendance/export?format=XLSX&month=" + monthFilter}>
+                <Button size={"sm"} variant="outline"
+                    className="w-full bg-amber-200 border hover:bg-amber-300 flex justify-center items-center gap-2">
+                    <Download size={20} />
+                    <span>Format Excel</span>
+                </Button>
+            </a>
+        </div>
+    )}
+</div>
 
             <div className="grid grid-cols-1">
                 {attendancesData.length > 0 ? (

@@ -20,31 +20,35 @@ export type AdminWorkshopIndexProps = {
 
 const MAJORS = [
     { value: "TKJ",  label: "TEKNIK KOMPUTER JARINGAN", shortLabel: "TKJ"  },
-    { value: "TSM",  label: "TEKNIK SEPEDA MOTOR",      shortLabel: "TSM"  },
-    { value: "TBOG", label: "TATA BOGA",                shortLabel: "TBOG" },
+    { value: "MP",  label: "MANAJEMEN PERKANTORAN", shortLabel: "MP"  },
+    { value: "AK", label: "AK",                shortLabel: "AK" },
+    { value: "TKR",  label: "TEKNIK KENDARAAN RINGAN",      shortLabel: "TKR"  },
+    { value: "TBSM",  label: "TEKNIK BISNIS SEPEDA MOTOR",      shortLabel: "TBSM"  },
 ] as const;
 
 type MajorValue = typeof MAJORS[number]["value"];
 
 const OWNER_LABEL_BY_MAJOR: Record<MajorValue, string> = {
     TKJ:  "Owner",
-    TSM:  "Pimpinan / Mekanik",
-    TBOG: "Chef",
+    MP:  "HRD",
+    AK: "MANAJER KEUANGAN",
+    TKR: "WORKSHOP FOREMAN",
+    TBSM: "SERVICE ADVISOR",
 };
 
 const PER_PAGE = 20;
 
 function filterByMajor(data: Workshop[], majorValue: MajorValue): Workshop[] {
-    const majorLabel = MAJORS.find((m) => m.value === majorValue)?.label ?? "";
-
     return data.filter((workshop) => {
         const students: any[] = (workshop as any).students ?? [];
 
-        if (students.length === 0) return false;
+        // Tampilkan workshop tanpa siswa di tab TKJ (default)
+        if (students.length === 0) return majorValue === "TKJ";
 
         return students.some((student) => {
             const m = student.major?.toUpperCase().trim() ?? "";
-            return m === majorLabel.toUpperCase() || m === majorValue.toUpperCase();
+            const majorLabel = MAJORS.find((x) => x.value === majorValue)?.label.toUpperCase() ?? "";
+            return m === majorLabel || m === majorValue.toUpperCase();
         });
     });
 }
@@ -131,14 +135,17 @@ function PaginationControls({
 
 export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIndexProps) {
     const { flash } = usePage().props as any;
-
+    
     const [workshopsData, setWorkshopsData] = useState<Workshop[]>(workshops);
     const [searchValue, setSearchValue]     = useState<string>("");
     const [activeTab, setActiveTab]         = useState<MajorValue>("TKJ");
     const [pages, setPages] = useState<Record<MajorValue, number>>({
         TKJ:  1,
         TSM:  1,
-        TBOG: 1,
+        MP: 1,
+        AK: 1,
+        TKR: 1,
+        TBSM: 1,
     });
 
     const [importDrawerOpen, setImportDrawerOpen] = useState<boolean>(false);
@@ -188,7 +195,7 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
                 replace: true,
                 onSuccess: (page: any) => {
                     setWorkshopsData(page.props.workshops as Workshop[]);
-                    setPages({ TKJ: 1, TSM: 1, TBOG: 1 });
+                    setPages({ TKJ: 1, MP: 1, AK: 1, TKR: 1, TBSM: 1 });
                 },
             }
         );
@@ -226,10 +233,10 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
     const currentOwnerLabel = OWNER_LABEL_BY_MAJOR[activeTab];
 
     return (
-        <MainLayout title="Data Lokasi Prakerin">
+        <MainLayout title="Data Lokasi PKL">
             <PageTitle
                 title={title as string}
-                description="Lokasi Prakerin yang terdaftar di sistem"
+                description="Lokasi PKL yang terdaftar di sistem"
             />
 
             <Tabs
@@ -238,9 +245,9 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
                 onValueChange={handleTabChange}
                 className="w-full mb-5"
             >
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="flex flex-wrap w-full h-auto gap-1 p-1">
                     {MAJORS.map((major) => (
-                        <TabsTrigger key={major.value} value={major.value} className="flex gap-2">
+                        <TabsTrigger key={major.value} value={major.value} className="flex gap-2 flex-1 min-w-[80px]">
                             {major.shortLabel}
                             <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs">
                                 {getMajorCount(major.value)}
@@ -259,7 +266,7 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
                                 className="mb-5"
                                 value={searchValue}
                                 onChange={handleSearch}
-                                placeholder={`Cari Lokasi Prakerin atau alamatnya - Jurusan ${major.shortLabel}`}
+                                placeholder={`Cari Lokasi PKL atau alamatnya - Jurusan ${major.shortLabel}`}
                             />
 
                             <Link href="/admin/workshop/create">
@@ -269,7 +276,7 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
                                     className="w-full bg-green-200 border mb-3 hover:bg-green-300 flex justify-center items-center gap-2"
                                 >
                                     <PlusCircle size={20} />
-                                    <span>Tambah Lokasi Prakerin</span>
+                                    <span>Tambah Lokasi PKL</span>
                                 </Button>
                             </Link>
 
@@ -280,12 +287,12 @@ export default function AdminWorkshopIndex({ title, workshops }: AdminWorkshopIn
                                 className="w-full bg-blue-200 border mb-5 hover:bg-blue-300 flex justify-center items-center gap-2"
                             >
                                 <ArrowUpFromLine size={20} />
-                                <span>Import Data Lokasi Prakerin</span>
+                                <span>Import Data Lokasi PKL</span>
                             </Button>
 
                             <ImportFileDrawer
-                                title="Import Data Lokasi Prakerin"
-                                description="Import data Lokasi Prakerin dari file excel"
+                                title="Import Data Lokasi PKL"
+                                description="Import data Lokasi PKL dari file excel"
                                 file={data.file_excel}
                                 onFileChange={(file: File | null) => setData("file_excel", file)}
                                 submitting={onImport}

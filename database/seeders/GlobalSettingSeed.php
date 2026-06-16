@@ -14,7 +14,7 @@ class GlobalSettingSeed extends Seeder
     public function run(): void
     {
         GlobalSetting::create([
-            'app_name' => 'Absensi Prakerin',
+            'app_name' => 'Absensi PKL',
             'app_icon' => 'assets/img/favicon.png',
             'max_attendance_radius' => 200,
             'default_latitude' => -6.5268489,
@@ -25,11 +25,11 @@ class GlobalSettingSeed extends Seeder
             'check_out_end' => '21:00',
 
             // School Identity
-            'school_name' => 'SMK Agung Mulia',
+            'school_name' => 'SMK 11 Maret Cikarang',
             'school_icon' => 'assets/img/school_icon.png',
             'school_address' => 'Jl. Prapatan Parseh I, Sanggra Agung, Kec. Socah, Kab. Bangkalan, Prov. Jawa Timur',
             'school_phone' => '085852159777',
-            'school_website' => 'www.smkagungmulia.sch.id',
+            'school_website' => 'www.smk11maretcikbar.sch.id',
         ]);
     }
 }

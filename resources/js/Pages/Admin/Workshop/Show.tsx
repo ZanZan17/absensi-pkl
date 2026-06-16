@@ -49,14 +49,14 @@ export default function AdminWorkshopShow({
         <MainLayout title={title as string}>
             <PageTitle
                 title={title as string}
-                description="Detail informasi Lokasi Prakerin"
+                description="Detail informasi Lokasi PKL"
             />
 
             <Card className="shadow-md p-4 mb-4 flex flex-col relative overflow-hidden">
                 <div className="z-10">
                     <div className="flex items-center gap-2 mb-3">
                         <HiBuildingStorefront className="text-slate-500" />
-                        <h3 className="text-lg font-semibold">Identitas Lokasi (Prakerin)</h3>
+                        <h3 className="text-lg font-semibold">Identitas Lokasi (PKL)</h3>
                     </div>
                     <div className="flex flex-col gap-1">
                         <p className="text-muted font-semibold text-sm"></p>
@@ -65,7 +65,7 @@ export default function AdminWorkshopShow({
                 <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-green-100 to-white rounded-l-md"></div>
                 <div className="flex flex-col z-10">
                     <KeyAndValue
-                        keyIdentifier="Nama Lokasi Prakerin"
+                        keyIdentifier="Nama Lokasi PKL"
                         value={workshop.name}
                     />
                     <KeyAndValue
@@ -77,7 +77,7 @@ export default function AdminWorkshopShow({
                         value={workshop.phone ?? "-"}
                     />
                     <KeyAndValue
-                        keyIdentifier="Alamat Lokasi Prakerin"
+                        keyIdentifier="Alamat Lokasi PKL"
                         value={workshop.address ?? "-"}
                     />
                 </div>
@@ -87,7 +87,7 @@ export default function AdminWorkshopShow({
                     <div className="flex items-center gap-2 mb-3">
                         <FaUserGear className="text-slate-500" size={18} />
                         <h3 className="text-lg font-semibold">
-                            Pembimbing Siswa Prakerin (Guru)
+                            Pembimbing Siswa PKL (Guru)
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -98,7 +98,7 @@ export default function AdminWorkshopShow({
                 {workshop?.supervisor == null ? (
                     <div className="flex flex-col z-10">
                         <span>
-                            Tidak ada Pembimbing yang ditugaskan untuk Lokasi Prakerin ini
+                            Tidak ada Pembimbing yang ditugaskan untuk Lokasi PKL ini
                         </span>
                     </div>
                 ) : (
@@ -130,7 +130,7 @@ export default function AdminWorkshopShow({
                     <div className="flex items-center gap-2 mb-3">
                         <PiStudentFill className="text-slate-500" size={18} />
                         <h3 className="text-lg font-semibold">
-                            Siswa Prakerin ({workshop.students?.length ?? 0})
+                            Siswa PKL ({workshop.students?.length ?? 0})
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -142,7 +142,7 @@ export default function AdminWorkshopShow({
                 workshop?.students?.length == 0 ? (
                     <div className="flex flex-col z-10">
                         <span>
-                            Tidak ada Siswa Prakerin yang terdaftar pada Lokasi Prakerin ini
+                            Tidak ada Siswa PKL yang terdaftar pada Lokasi PKL ini
                         </span>
                     </div>
                 ) : (
@@ -159,7 +159,7 @@ export default function AdminWorkshopShow({
                                     >
                                         <KeyAndValue
                                             dense={true}
-                                            keyIdentifier="NISN Siswa Prakerin"
+                                            keyIdentifier="NISN Siswa PKL"
                                             value={`${student?.nis} `}
                                         />
                                         <ChevronRight
@@ -169,7 +169,7 @@ export default function AdminWorkshopShow({
                                     </Link>
                                     <KeyAndValue
                                         dense={true}
-                                        keyIdentifier="Nama Siswa Prakerin"
+                                        keyIdentifier="Nama Siswa PKL"
                                         value={student.full_name ?? "-"}
                                     />
                                     <KeyAndValue
@@ -184,7 +184,7 @@ export default function AdminWorkshopShow({
                             ))
                         ) : (
                             <span>
-                                Tidak ada Siswa yang terdaftar pada Lokasi Prakerin ini
+                                Tidak ada Siswa yang terdaftar pada Lokasi PKL ini
                             </span>
                         )}
                     </div>
@@ -196,7 +196,7 @@ export default function AdminWorkshopShow({
                     <div className="flex items-center gap-2 mb-3">
                         <MapPinned className="text-slate-500" size={18} />
                         <h3 className="text-lg font-semibold">
-                            Koordinat Lokasi Prakerin
+                            Koordinat Lokasi PKL
                         </h3>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -206,7 +206,7 @@ export default function AdminWorkshopShow({
                 <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-green-100 to-white rounded-l-md"></div>
                 {workshop.latitude == null || workshop.longitude == null ? (
                     <div className="flex flex-col z-10">
-                        <span>Titik Koordinat Lokasi Prakerin tidak ditentukan</span>
+                        <span>Titik Koordinat Lokasi PKL tidak ditentukan</span>
                     </div>
                 ) : (
                     <MapPicker

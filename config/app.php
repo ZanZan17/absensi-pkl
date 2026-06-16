@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Absensi Prakerin - SMK Agung Mulia'),
+    'name' => env('APP_NAME', 'Absensi PKL - SMK 11 Maret Cikarang'),
 
     /*
     |--------------------------------------------------------------------------

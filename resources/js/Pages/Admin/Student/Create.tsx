@@ -71,7 +71,7 @@ export default function AdminStudentCreate({
             { key: "full_name", message: "Nama tidak boleh kosong" },
             { key: "class", message: "Kelas tidak boleh kosong" },
             { key: "major", message: "Jurusan tidak boleh kosong" },
-            { key: "workshop_id", message: "Lokasi Prakerin tidak boleh kosong" },
+            { key: "workshop_id", message: "Lokasi PKL tidak boleh kosong" },
             { key: "gelombang", message: "Gelombang harus dipilih" },
         ];
 
@@ -175,7 +175,7 @@ export default function AdminStudentCreate({
 
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">NISN Siswa Prakerin</label>
+                        <label className="text-base mb-1">NISN Siswa PKL</label>
                         <Input
                             type="text"
                             placeholder="Masukkan NISN"
@@ -191,7 +191,7 @@ export default function AdminStudentCreate({
 
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">Nama Siswa Prakerin</label>
+                        <label className="text-base mb-1">Nama Siswa PKL</label>
                         <Input
                             type="text"
                             placeholder="Masukkan Nama Lengkap"
@@ -251,14 +251,14 @@ export default function AdminStudentCreate({
 
                 <div className="mb-5">
                     <div className="flex flex-col">
-                        <label className="text-base mb-1">Lokasi Prakerin</label>
+                        <label className="text-base mb-1">Lokasi PKL</label>
                         <SelectSearchInput
                             value={data.workshop_id}
                             options={workshops}
                             onChange={(value) =>
                                 setData("workshop_id", value.toString())
                             }
-                            placeholder="Pilih Lokasi Prakerin"
+                            placeholder="Pilih Lokasi PKL"
                             removeValue={() => setData("workshop_id", "")}
                         />
                         {errors.workshop_id && (

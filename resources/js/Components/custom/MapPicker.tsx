@@ -134,7 +134,7 @@ const MapPicker = ({
                             popupAnchor: [1, -34],
                         })}
                     >
-                        <Popup>Lokasi Prakerin</Popup>
+                        <Popup>Lokasi PKL</Popup>
                     </Marker>
                 )}
         </MapContainer>

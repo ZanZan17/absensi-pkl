@@ -88,7 +88,7 @@ export default function AdminSupervisorShow({
                                     size={18}
                                 />
                                 <h3 className="text-lg font-semibold">
-                                    Lokasi Prakerin (
+                                    Lokasi PKL (
                                     {supervisor.workshops?.length ?? 0})
                                 </h3>
                             </div>
@@ -111,7 +111,7 @@ export default function AdminSupervisorShow({
                                                     href={`/admin/workshop/${workshop?.id}`}
                                                 >
                                                     <KeyAndValue
-                                                        keyIdentifier="Nama Lokasi Prakerin"
+                                                        keyIdentifier="Nama Lokasi PKL"
                                                         value={`${workshop?.name} `}
                                                     />
                                                     <ChevronRight
@@ -136,7 +136,7 @@ export default function AdminSupervisorShow({
                                                 />
                                                 <KeyAndValue
                                                     dense={true}
-                                                    keyIdentifier="Alamat Lokasi Prakerin"
+                                                    keyIdentifier="Alamat Lokasi PKL"
                                                     className="max-w-sm"
                                                     value={
                                                         workshop.address ?? "-"
@@ -148,7 +148,7 @@ export default function AdminSupervisorShow({
                                 ) : (
                                     <div className="flex flex-col z-10">
                                         <span>
-                                            Pembimbing tidak terdaftar pada Lokasi Prakerin
+                                            Pembimbing tidak terdaftar pada Lokasi PKL
                                         </span>
                                     </div>
                                 )}
@@ -259,7 +259,7 @@ export default function AdminSupervisorShow({
                                                 ) : (
                                                     <span>
                                                         Tidak ada siswa yang
-                                                        terdaftar pada Lokasi Prakerin ini
+                                                        terdaftar pada Lokasi PKL ini
                                                     </span>
                                                 )}
                                             </div>
@@ -279,7 +279,7 @@ export default function AdminSupervisorShow({
                                 size={18}
                             />
                             <h3 className="text-lg font-semibold">
-                                Tempat Bertugas (Lokasi Prakerin)
+                                Tempat Bertugas (Lokasi PKL)
                             </h3>
                         </div>
                         <div className="flex flex-col gap-1">
@@ -288,7 +288,7 @@ export default function AdminSupervisorShow({
                     </div>
                     <div className="absolute top-0 left-0 w-1/4 h-full bg-gradient-to-r from-amber-100 to-white rounded-l-md"></div>
                     <div className="flex flex-col z-10">
-                        <span>Tidak bertugas di Lokasi Prakerin manapun</span>
+                        <span>Tidak bertugas di Lokasi PKL manapun</span>
                     </div>
                 </Card>
             )}

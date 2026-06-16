@@ -37,7 +37,7 @@ class AuthController extends Controller
     {
         $app_setting = GlobalSetting::first();
         return Inertia::render('Auth/SignIn', [
-            'app_name' => $app_setting ? $app_setting->app_name : config('app.name', 'Absensi Prakerin - SMK Agung Mulia'),
+            'app_name' => $app_setting ? $app_setting->app_name : config('app.name', 'Absensi PKL - SMK 11 Maret Cikarang'),
         ]);
     }
 

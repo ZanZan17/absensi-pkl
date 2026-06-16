@@ -106,22 +106,22 @@ export default function SupervisorDashboard({
     const menuItems: MenuItem[] = [
         {
             icon: <PiStudentFill size={24} color="#36454F" />,
-            label: "Data Siswa Prakerin",
+            label: "Data Siswa PKL",
             url: "/supervisor/student",
         },
         {
             icon: <LuMapPinCheck size={24} color="#36454F" />,
-            label: "Absensi Siswa Prakerin",
+            label: "Absensi Siswa PKL",
             url: "/supervisor/student/attendance",
         },
         {
             icon: <NotebookText size={24} color="#36454F" />,
-            label: "Jurnal Siswa Prakerin",
+            label: "Jurnal Siswa PKL",
             url: "/supervisor/student/journal",
         },
         {
             icon: <HiBuildingStorefront size={24} color="#36454F" />,
-            label: "Data Lokasi Prakerin",
+            label: "Data Lokasi PKL",
             url: "/supervisor/workshop",
         },
     ];

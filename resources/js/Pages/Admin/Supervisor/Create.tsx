@@ -145,7 +145,7 @@ export default function AdminSupervisorCreate({
                 <div className="mb-5">
                     <div className="flex flex-col">
                         <label className="text-base mb-1">
-                            Lokasi Prakerin (Bisa nanti)
+                            Lokasi PKL (Bisa nanti)
                         </label>
                         <MultiSelectSearchInput
                             values={data.workshop_id}
@@ -153,7 +153,7 @@ export default function AdminSupervisorCreate({
                             onChange={(values) =>
                                 setData("workshop_id", values)
                             }
-                            placeholder="Pilih Lokasi Prakerin"
+                            placeholder="Pilih Lokasi PKL"
                         />
                         {errors.workshop_id && (
                             <ErrorInput error={errors.workshop_id} />
